@@ -1,0 +1,11 @@
+{
+  "name": "prueba-facturas",
+  "version": "1.0.0",
+  "description": "Prueba de spring boot para compilar sass",
+  "main": "index.js",
+  "scripts": {
+    "build": "./scripts/build.sh"
+  },
+  "author": "",
+  "license": "ISC"
+}
