@@ -53,4 +53,4 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > ./id_rsa
           chmod 600 ./id_rsa
-          ssh -i ./id_rsa lgonzalez@192.168.59.104 "./fechas.sh"
+          ssh -i ./id_rsa -o StrictHostKeyChecking=no  lgonzalez@192.168.59.104 "./fechas.sh"
