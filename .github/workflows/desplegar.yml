@@ -10,6 +10,13 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - name: Debug Secrets
+        run: |
+          if [[ -z "${{ secrets.VPN_USERNAME }}" ]]; then echo "VPN_USERNAME no está definido"; fi
+          if [[ -z "${{ secrets.VPN_PASSWORD }}" ]]; then echo "VPN_PASSWORD no está definido"; fi
+          if [[ -z "${{ secrets.VPN_IP }}" ]]; then echo "VPN_IP no está definido"; fi
+
+
       - name: Install OpenVPN
         run: sudo apt-get update && sudo apt-get install -y openvpn openvpn-systemd-resolved
 
