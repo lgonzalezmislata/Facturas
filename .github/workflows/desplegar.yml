@@ -42,6 +42,6 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > ./id_rsa
           chmod 600 ./id_rsa
-          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.VPN_USERNAME }}@192.168.59.104 "rm -rf DesplegarFacturasDocker"          
-          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.VPN_USERNAME }}@192.168.59.104 "git clone https://github.com/lgonzalezmislata/DesplegarFacturasDocker.git"
-          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.VPN_USERNAME }}@192.168.59.104 cd DesplegarFacturasDocker && ./deploy.sh"
+          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.VPN_USERNAME }}@192.168.59.104 'rm -rf DesplegarFacturasDocker'        
+          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.VPN_USERNAME }}@192.168.59.104 'git clone https://github.com/lgonzalezmislata/DesplegarFacturasDocker.git'
+          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.VPN_USERNAME }}@192.168.59.104 'cd DesplegarFacturasDocker && ./deploy.sh'
