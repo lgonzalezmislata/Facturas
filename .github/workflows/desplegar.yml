@@ -16,6 +16,10 @@ jobs:
       - name: Decode CA Certificate
         run: echo "${{ secrets.VPN_CA }}" | base64 --decode > ca.crt
 
+      - name: Decode CA Certificate
+        run: ls
+        
+
       - name: Create auth file
         run: |
           echo "${{ secrets.VPN_USERNAME }}" > credenciales.txt
