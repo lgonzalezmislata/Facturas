@@ -1,0 +1,44 @@
+name: Desplegar
+
+on:
+  workflow_dispatch:
+
+jobs:
+  vpn_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install OpenVPN
+        run: sudo apt-get update && sudo apt-get install -y openvpn openvpn-systemd-resolved
+
+      - name: Decode CA Certificate
+        run: echo "${{ secrets.VPN_CA }}" | base64 --decode > ca.crt
+
+      - name: Create auth file
+        run: |
+          echo "${{ secrets.VPN_USERNAME }}" > credenciales.txt
+          echo "${{ secrets.VPN_PASSWORD }}" >> credenciales.txt
+
+      - name: Update OpenVPN config with secrets
+        run: |
+          sed -i "s/REPLACE_VPN_IP/${{ secrets.VPN_IP }}/" vpn-pve.conf
+          sed -i "s/REPLACE_VPN_PORT/${{ secrets.VPN_PORT }}/" vpn-pve.conf
+
+      - name: Connect to VPN
+        run: sudo openvpn --config vpn-pve.conf --daemon
+
+      - name: Wait for VPN to establish
+        run: sleep 10
+
+      - name: Test Connection
+        run: ping 192.168.59.104
+
+      - name: Run remote script
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_ID_RSA }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > ./id_rsa
+          chmod 600 ./id_rsa
+          ssh -i ./id_rsa lgonzalez@192.168.59.104 "./fechas.sh"
