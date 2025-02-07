@@ -34,7 +34,7 @@ jobs:
           sed -i "s/REPLACE_VPN_PORT/${{ secrets.VPN_PORT }}/" .github/workflows/vpn-pve.conf
 
       - name: Connect to VPN
-        run: sudo openvpn --config vpn-pve.conf --daemon --log openvpn.log 
+        run: sudo openvpn --config .github/workflows/vpn-pve.conf --daemon --log openvpn.log 
 
       - name: Wait for VPN to establish
         run: sleep 10
