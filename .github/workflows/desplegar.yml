@@ -13,39 +13,33 @@ jobs:
       - name: Install OpenVPN
         run: sudo apt-get update && sudo apt-get install -y openvpn openvpn-systemd-resolved
 
-      - name: Decode CA Certificate
-        run: echo "${{ secrets.VPN_CA }}" | base64 --decode > .github/workflows/ca.crt
-
-      - name: cd
-        run: cd .github/workflows
-        
-      - name: ls
-        run: ls
-
-
-      - name: Create auth file
+      - name: Configurar la VPN
+        working-directory: .github/workflows
         run: |
-          echo "${{ secrets.VPN_USERNAME }}" > .github/workflows/credenciales.txt
-          echo "${{ secrets.VPN_PASSWORD }}" >> .github/workflows/credenciales.txt
-
-      - name: Update OpenVPN config with secrets
-        run: |
-          sed -i "s/REPLACE_VPN_IP/${{ secrets.VPN_IP }}/" .github/workflows/vpn-pve.conf
-          sed -i "s/REPLACE_VPN_PORT/${{ secrets.VPN_PORT }}/" .github/workflows/vpn-pve.conf
+          echo "${{ secrets.VPN_CA }}" | base64 --decode > ca.crt
+          ls
+          echo "${{ secrets.VPN_USERNAME }}" > credenciales.txt
+          echo "${{ secrets.VPN_PASSWORD }}" >> credenciales.txt
+          sed -i "s/REPLACE_VPN_IP/${{ secrets.VPN_IP }}/" vpn-pve.conf
+          sed -i "s/REPLACE_VPN_PORT/${{ secrets.VPN_PORT }}/" vpn-pve.conf
+          cat vpn-pve.conf 
 
       - name: Connect to VPN
+        working-directory: .github/workflows      
         run: sudo openvpn --config .github/workflows/vpn-pve.conf --daemon --log openvpn.log 
 
       - name: Wait for VPN to establish
         run: sleep 10
 
       - name: Test Connection
+        working-directory: .github/workflows
         run: sudo cat openvpn.log 
 
       - name: Test Connection
         run: ping 192.168.59.104
 
       - name: Run remote script
+        working-directory: .github/workflows      
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SERVER_ID_RSA }}
         run: |
