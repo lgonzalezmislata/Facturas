@@ -27,10 +27,13 @@ jobs:
           sed -i "s/REPLACE_VPN_PORT/${{ secrets.VPN_PORT }}/" vpn-pve.conf
 
       - name: Connect to VPN
-        run: sudo openvpn --config vpn-pve.conf --daemon
+        run: sudo openvpn --config vpn-pve.conf --daemon --log openvpn.log 
 
       - name: Wait for VPN to establish
         run: sleep 10
+
+      - name: Test Connection
+        run: sudo cat openvpn.log 
 
       - name: Test Connection
         run: ping 192.168.59.104
