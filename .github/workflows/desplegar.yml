@@ -2,7 +2,8 @@ name: Desplegar
 
 on:
   workflow_dispatch:
-
+env:
+  GLOBAL_VAR: "Valor global"
 jobs:
   vpn_job:
     runs-on: ubuntu-latest
@@ -11,11 +12,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Debug Secrets
+      
         run: |
+          if [[ -z "${{ GLOBAL_VAR }}" ]]; then echo "GLOBAL_VAR no está definido"; fi        
           if [[ -z "${{ secrets.VPN_USERNAME }}" ]]; then echo "VPN_USERNAME no está definido"; fi
           if [[ -z "${{ secrets.VPN_PASSWORD }}" ]]; then echo "VPN_PASSWORD no está definido"; fi
           if [[ -z "${{ secrets.VPN_IP }}" ]]; then echo "VPN_IP no está definido"; fi
-
+          if [[ -z "${{ secrets.VPN_PORT }}" ]]; then echo "VPN_PORT no está definido"; fi
 
       - name: Install OpenVPN
         run: sudo apt-get update && sudo apt-get install -y openvpn openvpn-systemd-resolved
