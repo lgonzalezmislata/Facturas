@@ -34,7 +34,7 @@ jobs:
 
       - name: Connect to VPN
         working-directory: .github/workflows      
-        run: sudo openvpn --config .github/workflows/vpn-pve.conf --daemon --log openvpn.log 
+        run: sudo openvpn --config vpn-pve.conf --daemon --log openvpn.log 
 
       - name: Wait for VPN to establish
         run: sleep 10
