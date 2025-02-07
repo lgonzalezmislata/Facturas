@@ -3,7 +3,7 @@ name: Desplegar
 on:
   workflow_dispatch:
 env:
-  GLOBAL_VAR: "Valor global"
+  GLOBAL_VAR: "Valorglobal"
 jobs:
   vpn_job:
     runs-on: ubuntu-latest
@@ -14,7 +14,7 @@ jobs:
       - name: Debug Secrets
       
         run: |
-          if [[ -z "${{ GLOBAL_VAR }}" ]]; then echo "GLOBAL_VAR no está definido"; fi        
+          if [[ -z "$GLOBAL_VAR" ]]; then echo "GLOBAL_VAR no está definido"; fi        
           if [[ -z "${{ secrets.VPN_USERNAME }}" ]]; then echo "VPN_USERNAME no está definido"; fi
           if [[ -z "${{ secrets.VPN_PASSWORD }}" ]]; then echo "VPN_PASSWORD no está definido"; fi
           if [[ -z "${{ secrets.VPN_IP }}" ]]; then echo "VPN_IP no está definido"; fi
