@@ -44,7 +44,7 @@ jobs:
         run: sudo cat openvpn.log 
 
       - name: Test Connection
-        run: ping 192.168.59.104
+        run: ping -c 2 192.168.59.104
 
       - name: Run remote script
         working-directory: .github/workflows      
