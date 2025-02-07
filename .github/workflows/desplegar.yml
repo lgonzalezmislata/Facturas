@@ -14,21 +14,24 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y openvpn openvpn-systemd-resolved
 
       - name: Decode CA Certificate
-        run: echo "${{ secrets.VPN_CA }}" | base64 --decode > ca.crt
+        run: echo "${{ secrets.VPN_CA }}" | base64 --decode > .github/workflows/ca.crt
 
-      - name: Decode CA Certificate
-        run: ls
+      - name: cd
+        run: cd .github/workflows
         
+      - name: ls
+        run: ls
+
 
       - name: Create auth file
         run: |
-          echo "${{ secrets.VPN_USERNAME }}" > credenciales.txt
-          echo "${{ secrets.VPN_PASSWORD }}" >> credenciales.txt
+          echo "${{ secrets.VPN_USERNAME }}" > .github/workflows/credenciales.txt
+          echo "${{ secrets.VPN_PASSWORD }}" >> .github/workflows/credenciales.txt
 
       - name: Update OpenVPN config with secrets
         run: |
-          sed -i "s/REPLACE_VPN_IP/${{ secrets.VPN_IP }}/" vpn-pve.conf
-          sed -i "s/REPLACE_VPN_PORT/${{ secrets.VPN_PORT }}/" vpn-pve.conf
+          sed -i "s/REPLACE_VPN_IP/${{ secrets.VPN_IP }}/" .github/workflows/vpn-pve.conf
+          sed -i "s/REPLACE_VPN_PORT/${{ secrets.VPN_PORT }}/" .github/workflows/vpn-pve.conf
 
       - name: Connect to VPN
         run: sudo openvpn --config vpn-pve.conf --daemon --log openvpn.log 
