@@ -47,4 +47,4 @@ jobs:
           chmod 600 ./id_rsa
           ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.SERVER_USERNAME }}@192.168.59.104 'rm -rf DesplegarFacturasDocker'        
           ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.SERVER_USERNAME }}@192.168.59.104 'git clone https://github.com/lgonzalezmislata/DesplegarFacturasDocker.git'
-          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.SERVER_USERNAME }}@192.168.59.104 'cd DesplegarFacturasDocker && ./deploy.sh'
+          ssh -i ./id_rsa -o StrictHostKeyChecking=no  ${{ secrets.SERVER_USERNAME }}@192.168.59.104 'cd DesplegarFacturasDocker && ./deploy.sh 2>&1'
